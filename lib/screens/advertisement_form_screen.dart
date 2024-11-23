@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:ads_app/classes/advertisement.dart';
 import 'package:ads_app/classes/category.dart';
+import 'package:ads_app/components/adverstiment_image_getter.dart';
 import 'package:ads_app/components/app_title.dart';
 import 'package:ads_app/components/form_button.dart';
 import 'package:ads_app/components/form_dropdown.dart';
@@ -14,7 +15,6 @@ import 'package:ads_app/utils/text_input_validators/empty_form_drop_down_input_v
 import 'package:ads_app/utils/text_input_validators/not_empty_text_input_validator.dart';
 import 'package:ads_app/utils/text_input_validators/prince_input_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AdvertisementFormScreen extends StatefulWidget {
   final Advertisement? advertisement;
@@ -92,33 +92,12 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
                 ),
               ),
               defaultSpacer,
-              GestureDetector(
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.grey[400]!,
-                      width: 1,
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: _image == null
-                        ? const Icon(Icons.add_a_photo, size: 25)
-                        : Image.file(_image!, fit: BoxFit.cover),
-                  ),
-                ),
-                onTap: () async {
-                  final ImagePicker imagePicker = ImagePicker();
-                  final XFile? pickedFile =
-                      await imagePicker.pickImage(source: ImageSource.gallery);
-
-                  if (pickedFile != null) {
+              AdvertisementImageGetter(
+                image: _image,
+                onGetImage: (gettedImage) {
+                  if (gettedImage != null) {
                     setState(() {
-                      _image = File(pickedFile.path);
+                      _image = gettedImage;
                     });
                   }
                 },
