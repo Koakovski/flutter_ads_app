@@ -76,143 +76,145 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Container(
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                screenTitle,
-                style: TextStyle(
-                  color: Colors.grey[600]!,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            defaultSpacer,
-            GestureDetector(
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.grey[400]!,
-                    width: 1,
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Center(
+                child: Text(
+                  screenTitle,
+                  style: TextStyle(
+                    color: Colors.grey[600]!,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: _image == null
-                      ? const Icon(Icons.add_a_photo, size: 25)
-                      : Image.file(_image!, fit: BoxFit.cover),
-                ),
               ),
-              onTap: () async {
-                final ImagePicker imagePicker = ImagePicker();
-                final XFile? pickedFile =
-                    await imagePicker.pickImage(source: ImageSource.gallery);
+              defaultSpacer,
+              GestureDetector(
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.grey[400]!,
+                      width: 1,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: _image == null
+                        ? const Icon(Icons.add_a_photo, size: 25)
+                        : Image.file(_image!, fit: BoxFit.cover),
+                  ),
+                ),
+                onTap: () async {
+                  final ImagePicker imagePicker = ImagePicker();
+                  final XFile? pickedFile =
+                      await imagePicker.pickImage(source: ImageSource.gallery);
 
-                if (pickedFile != null) {
-                  setState(() {
-                    _image = File(pickedFile.path);
-                  });
-                }
-              },
-            ),
-            defaultSpacer,
-            Form(
-              key: _formKey,
-              child: Column(
+                  if (pickedFile != null) {
+                    setState(() {
+                      _image = File(pickedFile.path);
+                    });
+                  }
+                },
+              ),
+              defaultSpacer,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    FormInput(
+                      controller: _advertisementNameController,
+                      hintText: 'Nome',
+                      validators: [notEmptyTextInputValidator],
+                    ),
+                    defaultSpacer,
+                    FormInput(
+                      controller: _advertisementPriceController,
+                      hintText: 'Preço',
+                      keyboardType: TextInputType.number,
+                      textFormatters: [PriceInputFormatter()],
+                      validators: [priceInputValidator],
+                    ),
+                    defaultSpacer,
+                    FormInput(
+                      controller: _advertisementDescriptionController,
+                      hintText: 'Descrição',
+                      maxlines: 3,
+                    ),
+                    defaultSpacer,
+                    FormDropdown<Category>(
+                      hint: "Selecione uma categoria",
+                      selectedItem: _selectedCategory,
+                      items: categories,
+                      onChanged: (category) {
+                        _selectedCategory = category;
+                      },
+                      itemBuilder: (category) =>
+                          FormDropdownItemCategory(category, context),
+                      validators: [emptyFormDropDownInputValidator],
+                    ),
+                  ],
+                ),
+              ),
+              defaultSpacer,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  FormInput(
-                    controller: _advertisementNameController,
-                    hintText: 'Nome',
-                    validators: [notEmptyTextInputValidator],
-                  ),
-                  defaultSpacer,
-                  FormInput(
-                    controller: _advertisementPriceController,
-                    hintText: 'Preço',
-                    keyboardType: TextInputType.number,
-                    textFormatters: [PriceInputFormatter()],
-                    validators: [priceInputValidator],
-                  ),
-                  defaultSpacer,
-                  FormInput(
-                    controller: _advertisementDescriptionController,
-                    hintText: 'Descrição',
-                    maxlines: 3,
-                  ),
-                  defaultSpacer,
-                  FormDropdown<Category>(
-                    hint: "Selecione uma categoria",
-                    selectedItem: _selectedCategory,
-                    items: categories,
-                    onChanged: (category) {
-                      _selectedCategory = category;
+                  FormButton(
+                    text: "Cancelar",
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
-                    itemBuilder: (category) =>
-                        FormDropdownItemCategory(category, context),
-                    validators: [emptyFormDropDownInputValidator],
+                    color: Colors.red,
+                  ),
+                  FormButton(
+                    text: submitButtonTitle,
+                    color: submitButtonColor,
+                    onPressed: () {
+                      if (_formKey.currentState == null) return;
+                      bool isValidated = _formKey.currentState!.validate();
+                      if (isValidated == false) return;
+
+                      String name = _advertisementNameController.text.trim();
+                      String stringPrice =
+                          _advertisementPriceController.text.trim();
+                      int priceInCents = int.parse(onlyDigits(stringPrice));
+                      String? description =
+                          _advertisementDescriptionController.text.trim();
+
+                      // TODO: remove hardcoded user on future
+                      if (widget.advertisement != null) {
+                        widget.advertisement!.name = name;
+                        widget.advertisement!.priceInCents = priceInCents;
+                        widget.advertisement!.category = _selectedCategory!;
+                        widget.advertisement!.description = description;
+                        widget.advertisement!.image = _image;
+
+                        Navigator.pop(context);
+                      } else {
+                        Advertisement advertisement = Advertisement.create(
+                          name: name,
+                          priceInCents: priceInCents,
+                          category: _selectedCategory!,
+                          image: _image,
+                          description: description,
+                          advertiser: userHigor,
+                        );
+
+                        Navigator.pop(context, advertisement);
+                      }
+                    },
                   ),
                 ],
-              ),
-            ),
-            defaultSpacer,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FormButton(
-                  text: "Cancelar",
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  color: Colors.red,
-                ),
-                FormButton(
-                  text: submitButtonTitle,
-                  color: submitButtonColor,
-                  onPressed: () {
-                    if (_formKey.currentState == null) return;
-                    bool isValidated = _formKey.currentState!.validate();
-                    if (isValidated == false) return;
-
-                    String name = _advertisementNameController.text.trim();
-                    String stringPrice =
-                        _advertisementPriceController.text.trim();
-                    int priceInCents = int.parse(onlyDigits(stringPrice));
-                    String? description =
-                        _advertisementDescriptionController.text.trim();
-
-                    // TODO: remove hardcoded user on future
-                    if (widget.advertisement != null) {
-                      widget.advertisement!.name = name;
-                      widget.advertisement!.priceInCents = priceInCents;
-                      widget.advertisement!.category = _selectedCategory!;
-                      widget.advertisement!.description = description;
-                      widget.advertisement!.image = _image;
-
-                      Navigator.pop(context);
-                    } else {
-                      Advertisement advertisement = Advertisement.create(
-                        name: name,
-                        priceInCents: priceInCents,
-                        category: _selectedCategory!,
-                        image: _image,
-                        description: description,
-                        advertiser: userHigor,
-                      );
-
-                      Navigator.pop(context, advertisement);
-                    }
-                  },
-                ),
-              ],
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
