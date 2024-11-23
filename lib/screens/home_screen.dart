@@ -2,10 +2,10 @@ import 'package:ads_app/classes/advertisement.dart';
 import 'package:ads_app/components/advertisement_card.dart';
 import 'package:ads_app/components/app_title.dart';
 import 'package:ads_app/components/delete_advertisement_confirmation_dialog.dart';
+import 'package:ads_app/components/show_advertisement_share_sheet.dart';
 import 'package:ads_app/screens/advertisement_form_screen.dart';
 import 'package:ads_app/mocks/advertisements_mocks.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,19 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
               key: ValueKey(advertisement.id),
               child: GestureDetector(
                 onLongPress: () async {
-                  final Uri url = Uri(
-                    scheme: 'whatsapp',
-                    host: 'send',
-                    queryParameters: {
-                      'text': "ola",
-                    },
+                  showAdvertisementShareSheet(
+                    context,
+                    advertisement: advertisement,
                   );
-
-                  if (!(await canLaunchUrl(url))) return;
-
-                  if (!await launchUrl(url)) {
-                    throw Exception('Could not launch $url');
-                  }
                 },
                 child: AdvertisementCard(
                   advertisement,
