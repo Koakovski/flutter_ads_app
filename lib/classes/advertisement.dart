@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ads_app/classes/category.dart';
 import 'package:ads_app/classes/user.dart';
 import 'package:ads_app/utils/generate_unique_id.dart';
@@ -7,6 +9,7 @@ class Advertisement {
   late String id;
   String name;
   String? description;
+  File? image;
   int priceInCents;
   Category category;
   User advertiser;
@@ -15,6 +18,7 @@ class Advertisement {
     required this.id,
     required this.name,
     this.description,
+    this.image,
     required this.priceInCents,
     required this.category,
     required this.advertiser,
@@ -23,6 +27,7 @@ class Advertisement {
   Advertisement.create({
     required this.name,
     this.description,
+    this.image,
     required this.priceInCents,
     required this.category,
     required this.advertiser,

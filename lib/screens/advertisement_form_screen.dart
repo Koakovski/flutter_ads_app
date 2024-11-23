@@ -37,7 +37,7 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
       TextEditingController();
   final TextEditingController _advertisementDescriptionController =
       TextEditingController();
-  Category? selectedCategory;
+  Category? _selectedCategory;
   File? _image;
 
   SizedBox defaultSpacer = const SizedBox(height: 10);
@@ -55,15 +55,16 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
     Advertisement advertisement = widget.advertisement!;
 
     screenTitle = 'Editar anúncio';
-    submitButtonTitle = "Editar";
+    submitButtonTitle = "Salvar";
     submitButtonColor = Colors.blue;
 
-    selectedCategory = advertisement.category;
+    _selectedCategory = advertisement.category;
     _advertisementNameController.text = advertisement.name;
     _advertisementPriceController.text = advertisement.formattedPrice;
     if (advertisement.description != null) {
       _advertisementDescriptionController.text = advertisement.description!;
     }
+    _image = advertisement.image;
   }
 
   @override
@@ -148,10 +149,10 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
                   defaultSpacer,
                   FormDropdown<Category>(
                     hint: "Selecione uma categoria",
-                    selectedItem: selectedCategory,
+                    selectedItem: _selectedCategory,
                     items: categories,
                     onChanged: (category) {
-                      selectedCategory = category;
+                      _selectedCategory = category;
                     },
                     itemBuilder: (category) =>
                         FormDropdownItemCategory(category, context),
@@ -190,15 +191,17 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
                     if (widget.advertisement != null) {
                       widget.advertisement!.name = name;
                       widget.advertisement!.priceInCents = priceInCents;
-                      widget.advertisement!.category = selectedCategory!;
+                      widget.advertisement!.category = _selectedCategory!;
                       widget.advertisement!.description = description;
+                      widget.advertisement!.image = _image;
 
                       Navigator.pop(context);
                     } else {
                       Advertisement advertisement = Advertisement.create(
                         name: name,
                         priceInCents: priceInCents,
-                        category: selectedCategory!,
+                        category: _selectedCategory!,
+                        image: _image,
                         description: description,
                         advertiser: userHigor,
                       );
