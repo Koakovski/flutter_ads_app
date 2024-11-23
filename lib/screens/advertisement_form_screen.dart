@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:ads_app/classes/advertisement.dart';
 import 'package:ads_app/classes/category.dart';
-import 'package:ads_app/components/adverstiment_image_getter.dart';
+import 'package:ads_app/components/advertisement_image_getter.dart';
 import 'package:ads_app/components/app_title.dart';
 import 'package:ads_app/components/form_button.dart';
 import 'package:ads_app/components/form_dropdown.dart';
