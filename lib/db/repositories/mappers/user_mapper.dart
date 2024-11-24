@@ -9,13 +9,11 @@ class UserMapper {
     );
   }
 
-  static Map toPersistence(User user) {
-    Map<String, dynamic> map = {
+  static Map<String, Object?> toPersistence(User user) {
+    return {
       'id': user.id,
       'name': user.name,
       'email': user.email,
     };
-
-    return map;
   }
 }

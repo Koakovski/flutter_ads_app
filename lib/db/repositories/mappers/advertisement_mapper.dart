@@ -33,8 +33,8 @@ class AdvertisementMapper {
     );
   }
 
-  static Map toPersistence(Advertisement advertisement) {
-    Map<String, dynamic> map = {
+  static Map<String, Object?> toPersistence(Advertisement advertisement) {
+    return {
       'id': advertisement.id,
       'name': advertisement.name,
       'description': advertisement.description,
@@ -43,7 +43,5 @@ class AdvertisementMapper {
       'advertiser_id': advertisement.advertiser.id,
       'category_id': advertisement.category.id,
     };
-
-    return map;
   }
 }

@@ -10,13 +10,11 @@ class CategoryMapper {
     );
   }
 
-  static Map toPersistence(Category category) {
-    Map<String, dynamic> map = {
+  static Map<String, Object?> toPersistence(Category category) {
+    return {
       'id': category.id,
       'name': category.name,
       'icon': category.icon.codePoint,
     };
-
-    return map;
   }
 }
