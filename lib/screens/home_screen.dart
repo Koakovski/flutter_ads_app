@@ -82,38 +82,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               key: ValueKey(advertisement.id),
-              child: GestureDetector(
-                onLongPress: () async {
-                  showAdvertisementShareSheet(
-                    context,
-                    advertisement: advertisement,
+              child: AdvertisementCard(
+                advertisement,
+                extraContentBuilder: (context) {
+                  return SizedBox(
+                    width: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AdvertisementFormScreen(
+                                  advertisement: advertisement,
+                                ),
+                              ),
+                            );
+
+                            await _advertisementRepository
+                                .update(advertisement);
+                            setState(() {});
+                          },
+                          child: const Icon(
+                            Icons.edit,
+                            color: Colors.grey,
+                            size: 15,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            showAdvertisementShareSheet(
+                              context,
+                              advertisement: advertisement,
+                            );
+                          },
+                          child: const Icon(
+                            Icons.share,
+                            color: Colors.grey,
+                            size: 15,
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 },
-                child: AdvertisementCard(
-                  advertisement,
-                  extraContentBuilder: (context) {
-                    return GestureDetector(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AdvertisementFormScreen(
-                              advertisement: advertisement,
-                            ),
-                          ),
-                        );
-
-                        await _advertisementRepository.update(advertisement);
-                        setState(() {});
-                      },
-                      child: const Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                        size: 15,
-                      ),
-                    );
-                  },
-                ),
               ),
               confirmDismiss: (DismissDirection direction) async {
                 return await showDialog(
