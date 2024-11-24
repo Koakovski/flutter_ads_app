@@ -1,4 +1,3 @@
-import 'package:ads_app/db/database_seed.dart';
 import 'package:ads_app/db/interfaces/database_migration.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -70,7 +69,6 @@ class DatabaseMigrationHelper {
   Future<void> create(Database db, int version) async {
     print("creating version $version");
     await _executeMigrations(db, newVersion: version);
-    await DatabaseSeed.execute();
   }
 
   Future<void> upgrade(Database db, int oldVersion, int newVersion) async {

@@ -1,3 +1,4 @@
+import 'package:ads_app/db/database_seed.dart';
 import 'package:ads_app/db/helpers/database_migration_helper.dart';
 import 'package:ads_app/db/migrations/create_advertisements_table_database_migration.dart';
 import 'package:ads_app/db/migrations/create_categories_table_database_migration.dart';
@@ -46,5 +47,9 @@ class DatabaseService {
       onUpgrade: databaseMigrationHelper.upgrade,
     );
     print("_______ DATABASE OPENED _______");
+
+    if (reset == true) {
+      await DatabaseSeed.execute();
+    }
   }
 }
