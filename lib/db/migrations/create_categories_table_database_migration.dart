@@ -8,7 +8,7 @@ class CreateCategoriesTableDatabaseMigration implements DatabaseMigration {
 
   Future<void> execute(Database db) async {
     await db.execute('''
-      CREATE TABLE categories (
+      CREATE TABLE IF NOT EXISTS categories (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         icon INTEGER NOT NULL

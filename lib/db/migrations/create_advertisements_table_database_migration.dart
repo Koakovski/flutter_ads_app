@@ -8,7 +8,7 @@ class CreateAdvertisementsTableDatabaseMigration implements DatabaseMigration {
 
   Future<void> execute(Database db) async {
     await db.execute('''
-      CREATE TABLE advertisements (
+      CREATE TABLE IF NOT EXISTS advertisements (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         description TEXT,
