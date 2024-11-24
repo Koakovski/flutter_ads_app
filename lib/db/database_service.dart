@@ -20,11 +20,16 @@ class DatabaseService {
     return _db!;
   }
 
-  Future<void> initDb() async {
+  Future<void> initDb({bool reset = false}) async {
     if (_db != null) return;
 
     final databasePath = await getDatabasesPath();
     final path = "$databasePath/database.db";
+
+    if (reset) {
+      print("_______ RESETTING DATABASE _______");
+      await deleteDatabase(path);
+    }
 
     DatabaseMigrationHelper databaseMigrationHelper = DatabaseMigrationHelper([
       CreateCategoriesTableDatabaseMigration(),
