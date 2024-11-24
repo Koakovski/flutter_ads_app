@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:ads_app/classes/advertisement.dart';
 import 'package:ads_app/classes/category.dart';
 import 'package:ads_app/classes/user.dart';
+import 'package:ads_app/db/repositories/mappers/User_mapper.dart';
 import 'package:ads_app/db/repositories/mappers/category_mapper.dart';
-import 'package:ads_app/db/repositories/mappers/user_mapper.dart';
 
 class AdvertisementMapper {
   static Advertisement toDomain(Map map) {
