@@ -1,7 +1,12 @@
+import 'package:ads_app/db/database_service.dart';
 import 'package:ads_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await DatabaseService().initDb();
+
   runApp(MaterialApp(
     title: 'P.O.N.T.O — Plataforma Online de Negócios, Trocas e Ofertas',
     debugShowCheckedModeBanner: false,
