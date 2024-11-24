@@ -7,8 +7,12 @@ import 'package:ads_app/mocks/user_mocks.dart';
 
 class DatabaseSeed {
   static Future<void> execute() async {
+    print("_______ SEEDING DATABASE _______");
+
     await Future.wait([_seedUsers(), _seedCategories()]);
     await _seedAdvertisments();
+
+    print("_______  DATABASE SEEDED _______");
   }
 
   static Future<void> _seedUsers() async {
