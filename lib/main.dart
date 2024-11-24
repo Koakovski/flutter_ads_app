@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await DatabaseService().initDb();
+  await DatabaseService().initDb(seed: true);
 
   runApp(MaterialApp(
     title: 'P.O.N.T.O — Plataforma Online de Negócios, Trocas e Ofertas',
