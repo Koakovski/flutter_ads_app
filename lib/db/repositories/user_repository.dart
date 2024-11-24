@@ -19,7 +19,30 @@ class UserRepository {
         .toList();
   }
 
+  Future<void> upsert(User user) async {
+    final existingUser = await _dbService.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [user.id],
+    );
+
+    if (existingUser.isEmpty) {
+      await create(user);
+    } else {
+      await update(user);
+    }
+  }
+
   Future<void> create(User user) async {
     await _dbService.insert('users', UserMapper.toPersistence(user));
+  }
+
+  Future<void> update(User user) async {
+    await _dbService.update(
+      'users',
+      UserMapper.toPersistence(user),
+      where: 'id = ?',
+      whereArgs: [user.id],
+    );
   }
 }

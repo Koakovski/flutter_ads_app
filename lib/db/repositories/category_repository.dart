@@ -19,10 +19,33 @@ class CategoryRepository {
         .toList();
   }
 
+  Future<void> upsert(Category category) async {
+    final existingCategory = await _dbService.query(
+      'categories',
+      where: 'id = ?',
+      whereArgs: [category.id],
+    );
+
+    if (existingCategory.isEmpty) {
+      await create(category);
+    } else {
+      await update(category);
+    }
+  }
+
   Future<void> create(Category category) async {
     await _dbService.insert(
       'categories',
       CategoryMapper.toPersistence(category),
+    );
+  }
+
+  Future<void> update(Category category) async {
+    await _dbService.update(
+      'categories',
+      CategoryMapper.toPersistence(category),
+      where: 'id = ?',
+      whereArgs: [category.id],
     );
   }
 }

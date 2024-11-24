@@ -35,6 +35,20 @@ class AdvertisementRepository {
         .toList();
   }
 
+  Future<void> upsert(Advertisement advertisement) async {
+    final existingAdvertisement = await _dbService.query(
+      'advertisements',
+      where: 'id = ?',
+      whereArgs: [advertisement.id],
+    );
+
+    if (existingAdvertisement.isEmpty) {
+      await create(advertisement);
+    } else {
+      await update(advertisement);
+    }
+  }
+
   Future<void> create(Advertisement advertisement) async {
     await _dbService.insert(
         'advertisments', AdvertisementMapper.toPersistence(advertisement));
