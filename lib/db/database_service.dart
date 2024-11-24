@@ -24,7 +24,6 @@ class DatabaseService {
     if (_db != null) return;
 
     final databasePath = await getDatabasesPath();
-    print({databasePath});
     final path = "$databasePath/database.db";
 
     DatabaseMigrationHelper databaseMigrationHelper = DatabaseMigrationHelper([
@@ -35,10 +34,10 @@ class DatabaseService {
 
     _db = await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onCreate: databaseMigrationHelper.create,
       onDowngrade: databaseMigrationHelper.downgrade,
-      onUpgrade: databaseMigrationHelper.downgrade,
+      onUpgrade: databaseMigrationHelper.upgrade,
     );
   }
 }
