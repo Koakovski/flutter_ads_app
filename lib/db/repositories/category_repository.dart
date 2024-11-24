@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 class CategoryRepository {
   final Database _dbService = DatabaseService().db;
 
-  Future<List<Category>> findAll(Category category) async {
+  Future<List<Category>> findAll() async {
     final List<Map> persistenceCategories = await _dbService.rawQuery('''
       SELECT 
         *
