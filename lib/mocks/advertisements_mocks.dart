@@ -162,7 +162,7 @@ Advertisement advertisementCarroToyota = Advertisement.create(
   advertiser: userMaria,
 );
 
-List<Advertisement> initialAdvertisements = [
+List<Advertisement> advertisementsMock = [
   advertisementOMorroDosVentosUivantes,
   advertisementIphone,
   advertisementCamiseta,

@@ -130,7 +130,7 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
                     FormDropdown<Category>(
                       hint: "Selecione uma categoria",
                       selectedItem: _selectedCategory,
-                      items: categories,
+                      items: categoriesMock,
                       onChanged: (category) {
                         _selectedCategory = category;
                       },

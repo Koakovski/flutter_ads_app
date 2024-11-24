@@ -51,7 +51,7 @@ Category categoryAutomotive = Category.create(
   icon: Icons.directions_car,
 );
 
-final List<Category> categories = [
+final List<Category> categoriesMock = [
   categoryBook,
   categoryElectronics,
   categoryClothing,
