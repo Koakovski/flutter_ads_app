@@ -51,7 +51,7 @@ class AdvertisementRepository {
 
   Future<void> create(Advertisement advertisement) async {
     await _dbService.insert(
-        'advertisments', AdvertisementMapper.toPersistence(advertisement));
+        'advertisements', AdvertisementMapper.toPersistence(advertisement));
   }
 
   Future<void> update(Advertisement advertisement) async {

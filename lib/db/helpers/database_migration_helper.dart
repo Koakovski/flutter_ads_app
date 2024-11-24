@@ -35,8 +35,9 @@ class DatabaseMigrationHelper {
 
     for (int i = startVersion; i <= endVersion; i++) {
       DatabaseMigration? migration = _migrations[i];
-      print("running version $i");
+
       if (migration == null) continue;
+      print("running version ${migration.version} '${migration.name}'");
 
       await migration.execute(db);
     }
@@ -59,8 +60,9 @@ class DatabaseMigrationHelper {
 
     for (int i = startVersion; i >= endVersion; i--) {
       DatabaseMigration? migration = _migrations[i];
-      print("running version $i");
+
       if (migration == null) continue;
+      print("running version ${migration.version} '${migration.name}'");
 
       await migration.rollback(db);
     }

@@ -10,7 +10,7 @@ class DatabaseSeed {
     print("_______ SEEDING DATABASE _______");
 
     await Future.wait([_seedUsers(), _seedCategories()]);
-    await _seedAdvertisments();
+    await _seedAdvertisements();
 
     print("_______  DATABASE SEEDED _______");
   }
@@ -27,7 +27,7 @@ class DatabaseSeed {
     }
   }
 
-  static Future<void> _seedAdvertisments() async {
+  static Future<void> _seedAdvertisements() async {
     for (var adivertisement in advertisementsMock) {
       await AdvertisementRepository().upsert(adivertisement);
     }

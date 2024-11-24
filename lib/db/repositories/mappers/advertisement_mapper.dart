@@ -20,12 +20,12 @@ class AdvertisementMapper {
     });
 
     return Advertisement(
-      id: map['advertisment_id'],
-      name: map['advertisment_name'],
-      priceInCents: map['advertisment_price_in_cents'],
-      description: map['advertisment_description'],
-      image: map['advertisment_image_path']
-          ? File(map['advertisment_image_path'])
+      id: map['advertisement_id'],
+      name: map['advertisement_name'],
+      priceInCents: map['advertisement_price_in_cents'],
+      description: map['advertisement_description'],
+      image: map['advertisement_image_path']
+          ? File(map['advertisement_image_path'])
           : null,
       advertiser: user,
       category: category,
