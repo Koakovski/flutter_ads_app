@@ -3,8 +3,8 @@ import 'package:ads_app/components/advertisement_card.dart';
 import 'package:ads_app/components/app_title.dart';
 import 'package:ads_app/components/delete_advertisement_confirmation_dialog.dart';
 import 'package:ads_app/components/show_advertisement_share_sheet.dart';
+import 'package:ads_app/db/repositories/advertisement_respository.dart';
 import 'package:ads_app/screens/advertisement_form_screen.dart';
-import 'package:ads_app/mocks/advertisements_mocks.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +15,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Advertisement> _advertisements = initialAdvertisements;
+  final AdvertisementRepository _advertisementRepository =
+      AdvertisementRepository();
+  List<Advertisement> _advertisements = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAdvertisements();
+  }
+
+  Future<void> _loadAdvertisements() async {
+    final advertisements = await _advertisementRepository.findAll();
+    setState(() {
+      _advertisements = advertisements;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
