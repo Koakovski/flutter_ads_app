@@ -34,4 +34,18 @@ class AdvertisementRepository {
         .map((map) => AdvertisementMapper.toDomain(map))
         .toList();
   }
+
+  Future<void> create(Advertisement advertisement) async {
+    await _dbService.insert(
+        'advertisments', AdvertisementMapper.toPersistence(advertisement));
+  }
+
+  Future<void> update(Advertisement advertisement) async {
+    await _dbService.update(
+      'advertisements',
+      AdvertisementMapper.toPersistence(advertisement),
+      where: 'id = ?',
+      whereArgs: [advertisement.id],
+    );
+  }
 }
