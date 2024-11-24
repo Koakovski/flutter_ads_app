@@ -40,6 +40,6 @@ class DatabaseService {
       onDowngrade: databaseMigrationHelper.downgrade,
       onUpgrade: databaseMigrationHelper.upgrade,
     );
-    print("_______ DATABASE OPENNED _______");
+    print("_______ DATABASE OPENED _______");
   }
 }
