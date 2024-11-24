@@ -52,23 +52,13 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
   @override
   void initState() {
     super.initState();
+
     _loadCategories();
 
-    if (widget.advertisement == null) return;
-
-    Advertisement advertisement = widget.advertisement!;
-
-    screenTitle = 'Editar anúncio';
-    submitButtonTitle = "Salvar";
-    submitButtonColor = Colors.blue;
-
-    _selectedCategory = advertisement.category;
-    _advertisementNameController.text = advertisement.name;
-    _advertisementPriceController.text = advertisement.formattedPrice;
-    if (advertisement.description != null) {
-      _advertisementDescriptionController.text = advertisement.description!;
+    if (widget.advertisement != null) {
+      _setScreenToEditMode();
+      _setAdversiment(widget.advertisement!);
     }
-    _image = advertisement.image;
   }
 
   _loadCategories() async {
@@ -76,6 +66,22 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
     setState(() {
       _availableCategories = categories;
     });
+  }
+
+  _setScreenToEditMode() {
+    screenTitle = 'Editar anúncio';
+    submitButtonTitle = "Salvar";
+    submitButtonColor = Colors.blue;
+  }
+
+  _setAdversiment(Advertisement advertisement) {
+    _selectedCategory = advertisement.category;
+    _advertisementNameController.text = advertisement.name;
+    _advertisementPriceController.text = advertisement.formattedPrice;
+    if (advertisement.description != null) {
+      _advertisementDescriptionController.text = advertisement.description!;
+    }
+    _image = advertisement.image;
   }
 
   @override
