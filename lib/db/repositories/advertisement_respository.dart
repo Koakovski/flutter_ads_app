@@ -11,9 +11,9 @@ class AdvertisementRepository {
       SELECT 
         advertisements.id AS advertisement_id,
         advertisements.name AS advertisement_name,
-        advertisements.advertisement_description,
-        advertisements.advertisement_image_path,
-        advertisements.advertisement_price_in_cents,
+        advertisements.description AS advertisement_description,
+        advertisements.image_path AS advertisement_image_path,
+        advertisements.price_in_cents AS advertisement_price_in_cents,
 
         categories.id AS category_id,
         categories.name AS category_name,
