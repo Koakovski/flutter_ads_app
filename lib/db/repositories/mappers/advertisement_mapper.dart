@@ -24,7 +24,7 @@ class AdvertisementMapper {
       name: map['advertisement_name'],
       priceInCents: map['advertisement_price_in_cents'],
       description: map['advertisement_description'],
-      image: map['advertisement_image_path']
+      image: map['advertisement_image_path'] != null
           ? File(map['advertisement_image_path'])
           : null,
       advertiser: user,
