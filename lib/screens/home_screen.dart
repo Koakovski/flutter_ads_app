@@ -3,7 +3,7 @@ import 'package:ads_app/components/advertisement_card.dart';
 import 'package:ads_app/components/app_title.dart';
 import 'package:ads_app/components/delete_advertisement_confirmation_dialog.dart';
 import 'package:ads_app/components/show_advertisement_share_sheet.dart';
-import 'package:ads_app/db/repositories/advertisement_respository.dart';
+import 'package:ads_app/db/repositories/advertisement_repository.dart';
 import 'package:ads_app/screens/advertisement_form_screen.dart';
 import 'package:flutter/material.dart';
 
