@@ -1,4 +1,5 @@
 import 'package:ads_app/classes/advertisement.dart';
+import 'package:ads_app/components/advertisement_card_leading.dart';
 import 'package:flutter/material.dart';
 
 class AdvertisementCard extends StatelessWidget {
@@ -24,10 +25,7 @@ class AdvertisementCard extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        leading: Icon(
-          _advertisement.category.icon,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        leading: AdvertisementCardLeading(_advertisement),
         title: Text(_advertisement.name),
         subtitle: Text(
           _advertisement.description ?? "",
