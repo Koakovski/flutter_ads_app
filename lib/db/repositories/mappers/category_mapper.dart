@@ -6,7 +6,7 @@ class CategoryMapper {
     return Category(
       id: map['id'],
       name: map['name'],
-      icon: IconData(map['icon']),
+      icon: IconData(map['icon'], fontFamily: 'MaterialIcons'),
     );
   }
 
