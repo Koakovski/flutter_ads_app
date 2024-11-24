@@ -6,6 +6,21 @@ import 'package:sqflite/sqflite.dart';
 class CategoryRepository {
   final Database _dbService = DatabaseService().db;
 
+  Future<Category?> findById(String id) async {
+    final List<Map> existingCategory = await _dbService.query(
+      'categories',
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (existingCategory.isEmpty) {
+      return null;
+    }
+
+    return CategoryMapper.toDomain(existingCategory[0]);
+  }
+
   Future<List<Category>> findAll() async {
     final List<Map> persistenceCategories = await _dbService.rawQuery('''
       SELECT 
@@ -17,20 +32,6 @@ class CategoryRepository {
     return persistenceCategories
         .map((map) => CategoryMapper.toDomain(map))
         .toList();
-  }
-
-  Future<void> upsert(Category category) async {
-    final existingCategory = await _dbService.query(
-      'categories',
-      where: 'id = ?',
-      whereArgs: [category.id],
-    );
-
-    if (existingCategory.isEmpty) {
-      await create(category);
-    } else {
-      await update(category);
-    }
   }
 
   Future<void> create(Category category) async {

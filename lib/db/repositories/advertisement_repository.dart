@@ -6,6 +6,21 @@ import 'package:sqflite/sqflite.dart';
 class AdvertisementRepository {
   final Database _dbService = DatabaseService().db;
 
+  Future<Advertisement?> findById(String id) async {
+    final List<Map> existingAdvertisement = await _dbService.query(
+      'advertisements',
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (existingAdvertisement.isEmpty) {
+      return null;
+    }
+
+    return AdvertisementMapper.toDomain(existingAdvertisement[0]);
+  }
+
   Future<List<Advertisement>> findAll() async {
     final List<Map> persistenceAdvertisements = await _dbService.rawQuery('''
       SELECT 
@@ -33,20 +48,6 @@ class AdvertisementRepository {
     return persistenceAdvertisements
         .map((map) => AdvertisementMapper.toDomain(map))
         .toList();
-  }
-
-  Future<void> upsert(Advertisement advertisement) async {
-    final existingAdvertisement = await _dbService.query(
-      'advertisements',
-      where: 'id = ?',
-      whereArgs: [advertisement.id],
-    );
-
-    if (existingAdvertisement.isEmpty) {
-      await create(advertisement);
-    } else {
-      await update(advertisement);
-    }
   }
 
   Future<void> create(Advertisement advertisement) async {

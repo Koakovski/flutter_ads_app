@@ -21,7 +21,7 @@ class DatabaseService {
     return _db!;
   }
 
-  Future<void> initDb({bool reset = false}) async {
+  Future<void> initDb({bool reset = false, bool seed = false}) async {
     if (_db != null) return;
 
     final databasePath = await getDatabasesPath();
@@ -48,7 +48,7 @@ class DatabaseService {
     );
     print("_______ DATABASE OPENED _______");
 
-    if (reset == true) {
+    if (seed == true) {
       await DatabaseSeed.execute();
     }
   }

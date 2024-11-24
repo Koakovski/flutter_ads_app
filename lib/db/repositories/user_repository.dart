@@ -6,6 +6,21 @@ import 'package:sqflite/sqflite.dart';
 class UserRepository {
   final Database _dbService = DatabaseService().db;
 
+  Future<User?> findById(String id) async {
+    final List<Map> existingUser = await _dbService.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (existingUser.isEmpty) {
+      return null;
+    }
+
+    return UserMapper.toDomain(existingUser[0]);
+  }
+
   Future<List<User>> findAll() async {
     final List<Map> persistenceCategories = await _dbService.rawQuery('''
       SELECT 
@@ -17,20 +32,6 @@ class UserRepository {
     return persistenceCategories
         .map((map) => UserMapper.toDomain(map))
         .toList();
-  }
-
-  Future<void> upsert(User user) async {
-    final existingUser = await _dbService.query(
-      'users',
-      where: 'id = ?',
-      whereArgs: [user.id],
-    );
-
-    if (existingUser.isEmpty) {
-      await create(user);
-    } else {
-      await update(user);
-    }
   }
 
   Future<void> create(User user) async {
