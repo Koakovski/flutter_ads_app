@@ -20,29 +20,30 @@ class DatabaseSeed {
 
   static Future<void> _seedUsers() async {
     UserRepository userRepository = UserRepository();
+    List<User> users = await userRepository.findAll();
+    if (users.isNotEmpty) return;
 
     for (var user in usersMock) {
-      User? findedUser = await userRepository.findById(user.id);
-      if (findedUser != null) continue;
       await userRepository.create(user);
     }
   }
 
   static Future<void> _seedCategories() async {
     CategoryRepository categoryRepository = CategoryRepository();
+    List<Category> categories = await categoryRepository.findAll();
+    if (categories.isNotEmpty) return;
+
     for (var category in categoriesMock) {
-      Category? findedCategory = await categoryRepository.findById(category.id);
-      if (findedCategory != null) continue;
       await categoryRepository.create(category);
     }
   }
 
   static Future<void> _seedAdvertisements() async {
     AdvertisementRepository advertisementRepository = AdvertisementRepository();
+    List<Advertisement> advertisments = await advertisementRepository.findAll();
+    if (advertisments.isNotEmpty) return;
+
     for (var advertisement in advertisementsMock) {
-      Advertisement? findedadvertisement =
-          await advertisementRepository.findById(advertisement.id);
-      if (findedadvertisement != null) continue;
       await advertisementRepository.create(advertisement);
     }
   }
