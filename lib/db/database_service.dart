@@ -32,6 +32,7 @@ class DatabaseService {
       CreateAdvertisementsTableDatabaseMigration(),
     ]);
 
+    print("_______ OPENING DATABASE _______");
     _db = await openDatabase(
       path,
       version: 4,
@@ -39,5 +40,6 @@ class DatabaseService {
       onDowngrade: databaseMigrationHelper.downgrade,
       onUpgrade: databaseMigrationHelper.upgrade,
     );
+    print("_______ DATABASE OPENNED _______");
   }
 }
