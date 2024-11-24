@@ -1,4 +1,4 @@
-import 'package:ads_app/classes/user.dart';
+import 'package:ads_app/classes/User.dart';
 
 class UserMapper {
   static User toDomain(Map map) {
