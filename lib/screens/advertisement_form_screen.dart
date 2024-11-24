@@ -7,7 +7,7 @@ import 'package:ads_app/components/form_button.dart';
 import 'package:ads_app/components/form_dropdown.dart';
 import 'package:ads_app/components/form_dropdown_item_category.dart';
 import 'package:ads_app/components/form_input.dart';
-import 'package:ads_app/mocks/category_mocks.dart';
+import 'package:ads_app/db/repositories/category_repository.dart';
 import 'package:ads_app/mocks/user_mocks.dart';
 import 'package:ads_app/utils/only_digits.dart';
 import 'package:ads_app/utils/text_input_formatters/price_text_input_formatter.dart';
@@ -30,6 +30,8 @@ class AdvertisementFormScreen extends StatefulWidget {
 }
 
 class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
+  final CategoryRepository categoryRepository = CategoryRepository();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _advertisementNameController =
       TextEditingController();
@@ -37,6 +39,7 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
       TextEditingController();
   final TextEditingController _advertisementDescriptionController =
       TextEditingController();
+  List<Category> _availableCategories = [];
   Category? _selectedCategory;
   File? _image;
 
@@ -49,6 +52,7 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
   @override
   void initState() {
     super.initState();
+    _loadCategories();
 
     if (widget.advertisement == null) return;
 
@@ -65,6 +69,13 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
       _advertisementDescriptionController.text = advertisement.description!;
     }
     _image = advertisement.image;
+  }
+
+  _loadCategories() async {
+    List<Category> categories = await categoryRepository.findAll();
+    setState(() {
+      _availableCategories = categories;
+    });
   }
 
   @override
@@ -130,7 +141,7 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
                     FormDropdown<Category>(
                       hint: "Selecione uma categoria",
                       selectedItem: _selectedCategory,
-                      items: categoriesMock,
+                      items: _availableCategories,
                       onChanged: (category) {
                         _selectedCategory = category;
                       },

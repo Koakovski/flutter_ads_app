@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
 
               if (advertisement != null) {
+                await _advertisementRepository.create(advertisement);
                 setState(() {
                   _advertisements.insert(0, advertisement);
                 });
@@ -102,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
 
+                        await _advertisementRepository.update(advertisement);
                         setState(() {});
                       },
                       child: const Icon(
