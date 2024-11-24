@@ -112,11 +112,9 @@ class _AdvertisementFormScreenState extends State<AdvertisementFormScreen> {
               AdvertisementImageGetter(
                 image: _image,
                 onGetImage: (gettedImage) {
-                  if (gettedImage != null) {
-                    setState(() {
-                      _image = gettedImage;
-                    });
-                  }
+                  setState(() {
+                    _image = gettedImage;
+                  });
                 },
               ),
               defaultSpacer,

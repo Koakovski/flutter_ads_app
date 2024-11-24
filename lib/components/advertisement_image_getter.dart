@@ -36,6 +36,9 @@ class AdvertisementImageGetter extends StatelessWidget {
               : Image.file(image!, fit: BoxFit.cover),
         ),
       ),
+      onLongPress: () {
+        onGetImage(null);
+      },
       onTap: () async {
         final ImagePicker imagePicker = ImagePicker();
         final XFile? pickedFile =
